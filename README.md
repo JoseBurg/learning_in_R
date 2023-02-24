@@ -1,1 +1,1 @@
-# shyni_learning
+# shiny_learning
