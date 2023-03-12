@@ -90,7 +90,7 @@ ui <- fluidPage(
 
 
 Los botones con los argumentos `choiceNames/ choiceValues` muestran opciones que no sean texto sin formato.
-`choiceNames` determina lo que se muestra al usuario y `choiceValues` determina lo que se devuelce en su función de servidor.
+`choiceNames` determina lo que se muestra al usuario y `choiceValues` determina lo que se devuelve en su función de servidor.
 
 ```{r}
 ui <- fluidPage(
@@ -106,7 +106,7 @@ ui <- fluidPage(
 ```
 
 
-- `selecIpunt()` es mas adecuado para listas largas, ya que despega un menú más elegante. Ademas, con el argumento de `multiple = TRUE` el usuario puede selecionar más de una opcion.
+- `selecIpunt()` es mas adecuado para listas largas, ya que despega un menú más elegante. Ademas, con el argumento de `multiple = TRUE` el usuario puede seleccionar más de una opción.
 
 ```{r}
 ui <- fluidPage(
