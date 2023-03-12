@@ -1,0 +1,140 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Introducción 1.2
+\newline
+
+## Entradas
+
+### Interfaz del usuario basico
+
+#### Extructura común:
+
+
+```{r}
+sliderIpunt(id = "names", label = "Names", value = "names")`
+```
+ 
+
+Controles básicos del usuario que se puede colocar dentro de `UI`:
+
+- *sliderInput()*
+
+- *selecInput()*
+
+- *textInput()*
+
+- *numericInput()*
+
+#### Texto libre 
+
+Se puede recopilar cantidades de texto, contraseña y parrafos con:
+
+```{r}
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  passwordInput("password", "What's your password?"),
+  textAreaInput("story", "Tell me about yourself", rows = 3)
+)
+```
+
+
+#### Entradas numéricas
+
+
+```{r}
+ui <- fluidPage(
+  numericInput("num", "Number one", value = 0, min = 0, max = 100),
+  sliderInput("num2", "Number two", value = 50, min = 0, max = 100),
+  sliderInput(
+    "rng", "Range", value = c(10, 20), # con c() puede configurar un rango de valores
+    min = 0, max = 100
+  ) 
+)
+
+```
+
+
+#### Fechas
+
+
+```{r}
+ui <- fluidPage(
+  dateInput("dob", "When were you born?"),# para recoger solo un dia 
+  dateRangeInput( # para recoger un rango de días
+    "holiday", "When do you want to go on vacation next?")
+  # configure con :
+  #   format,
+  #   language,
+  #   weekstart
+  )
+
+```
+
+
+### Opciones limitadas
+Si queremos que el usuario elija un conjunto de opciones predeterminada: `selecIpunt()` y 
+`radioButtons()`: 
+
+```{r}
+animals <- c("dog", "cat", "mouse", "bird", "other", "I hate animals")
+
+ui <- fluidPage(
+  selectInput("state", "What's your favourite state?", state.name),
+  radioButtons("animal", "What's your favourite animal?", animals)
+)
+```
+
+
+
+Los botones con los argumentos `choiceNames/ choiceValues` muestran opciones que no sean texto sin formato.
+`choiceNames` determina lo que se muestra al usuario y `choiceValues` determina lo que se devuelce en su función de servidor.
+
+```{r}
+ui <- fluidPage(
+  radioButtons("rb", "Choose one:",
+    choiceNames = list(
+      icon("angry"),
+      icon("smile"),
+      icon("sad-tear")
+    ),
+    choiceValues = list("angry", "happy", "sad")
+  )
+)
+```
+
+
+- `selecIpunt()` es mas adecuado para listas largas, ya que despega un menú más elegante. Ademas, con el argumento de `multiple = TRUE` el usuario puede selecionar más de una opcion.
+
+```{r}
+ui <- fluidPage(
+  selectInput(
+    "state", "What's your favourite state?", state.name,
+    multiple = TRUE
+  )
+)
+```
+
+
+Aunque con los botones de radio no se puede selecionar diferentes valores a la vez, tiene la altenativa de usar `checkboxGroupInput()`
+
+```{r}
+ui <- fluidPage(
+  checkboxGroupInput("animal", "What animals do you like?", animals)
+)
+```
+
+
+Cuando necesite casillas de verificación con pocas opciones utilice: `checkboxInput()`
+
+```{r}
+ui <- fluidPage(
+  checkboxInput("cleanup", "Clean up?", value = TRUE),
+  checkboxInput("shutdown", "Shutdown?")
+)
+```
+
+![](https://d33wubrfki0l68.cloudfront.net/ff021265e68d432ea7e3e574849a8f6a8f25b9b0/27e99/demos/basic-ui/yes-no.png)
+
