@@ -70,7 +70,7 @@ server <- function(input, output) {
           `Capital e intereses` = sum(`Total intereses`, `Total de capital`)) |> 
         dplyr::mutate(
           dplyr::across(dplyr::everything(), ~format(.,big.mark = ",", nsmall = 2)),
-          dplyr::across(dplyr::everything(), \(x){paste0("RD$", x)})) |> gt::gt()
+          dplyr::across(dplyr::everything(), \(x){paste0("RD$", x)}))
         
     })
     
