@@ -1,0 +1,60 @@
+---
+title: "Econometría Financiera"
+subtitle: "Modelos ARIMA"
+author: "José Ant. Burgos"
+date: "2023-09-17"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+
+
+
+```{r}
+# Descargando datos financieros
+# Claves pizarra en yahoo finance
+library(quantmod)
+sp_500 <- "^GSPC"
+
+getSymbols(
+  sp_500,
+  src = "yahoo",
+  format = "df",
+  
+)
+
+```
+
+
+```{r}
+library(dplyr)
+
+df_sp500 <- GSPC
+
+
+
+
+```
+
+
+
+## R Markdown
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
