@@ -1,0 +1,26 @@
+---
+title: "Untitled"
+author: "J_B"
+date: '2023-10-10'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<!-- https://www.ucm.es/data/cont/media/www/pag-41459/VAR.pdf -->
+
+
+## Modelos de vectores autoregresivos (VARs)
+
+Modelo estructural dinámico:
+
+$$y_{1t} = \alpha_{10} + \alpha_{11}\ y_{2t} + \alpha_{12}\ y_{1t-1} + \alpha_{13}\ y_{2t-1} + \gamma'_1z_t + \epsilon_{1t}$$
+
+$$y_{2t} = \alpha_{20} + \alpha_{21}\ y_{1t} + \alpha_{22}\ y_{1t-1} + \alpha_{23}\ y_{2t-1} + \gamma'_2z_t + \epsilon_{2t}$$
+
+(1)
+
+las variables dependientes, son las variables estacionarias, y los errores son los procesos de ruidos blancos con esperanza cero, varianzas $\sigma^2_{\epsilon_1}$, $\sigma^2_{\epsilon_1}$ y covarianza $\sigma_{12}$. Este es un modelo de ecuaciones simultáneas con dos variables endógenas, $y_{1t}$, $y_{2t}$, y un vector $z_{t}$ de variables exógenas. Un shock inesperado sobre $y_{2t}$, en la forma de un valor no nulo de la innovación estructural $\epsilon_{2t}$, afecta directamente a $y_{2t}$, pero también influye sobre $y_{1t}$ a través de la presencia de $y_{2t}$ como variable explicativa en la primera ecuación. Además, este efecto se propaga en el tiempo, debido a la presencia de los valores retardados de ambas variables como variables explicativas. Por simplicidad, suponemos de momento que únicamente aparece un primer retardo de amabas variables como explicativas en cada ecuación, aunque la identificación del numero de retardos forma parte del análisis de especificación del modelo, como veremos más adelante.
+
+El modelo estructural puede incorpora asimismo un vector de variables explicativas exógenas $z_{t}$ en cada ecuación, que pueden aparecer asimos con retardos. Un ejemplo de este tipo de variables serían una tendencia determinista, o variables ficticias estacionales. También podrían ser variables que se determina claramente fuera de la influencia de $y_{1t}$ e $y_{2t}$, de modo que pueda justificarse que $E(z_{t-s} \epsilon_{1t}) = E(z_{t-s} \epsilon_{2t})$
