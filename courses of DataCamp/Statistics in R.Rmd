@@ -1,0 +1,120 @@
+---
+title: "Introduction to statistics in R"
+author: "José Burgos"
+date: "2023-11-15"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+Course statistics
+
+2 branch have of statistics
+
+Descriptive statistics: Describe and summarize data
+
+Inferential statistics \* Use a sample of data to make inferences abour a larger population
+
+Types of data 1. Numeric (Quantitative) \* Continuous (Measured) \*\* Airplane speed \*\* Time spent waiting in line
+
+-   Discrete (Counted) \*\* Number of pets \*\* Number of packages shipped
+
+2.  Categorical (Qualitative)
+
+-   Nominal (Unordered) \*\* Married/Unmarried \*\* Country of residence
+
+-   Ordinal (Ordered) \_\_\_\_\_\_\_\_\_\_\_\_\_Which measure to use???\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Median and mean
+
+Cuando los datos estan sesgados a la izquierda la media es menor que la mediana y mayor que la mediana en los datos sesgados a la derecha.
+
+Se recomienda usar la media en datos simétricos y la mediana en datos asimétricos.
+
+Debido a que la media es arrastrada por los valores extremos, es mejor usar la medianan ya que se ve menos afectada por los valores atípicos.
+
+## Measures of spread
+
+Medidas de propagación.
+
+-   Varianza: Mide la distancia promedio desde cada punto de datos hasta la media de los datos. Cuanto mayor sea la varianza, más dospersos están los datos.
+
+    ```{r}
+    var(iris$Sepal.Length)
+    ```
+
+-   Desviación estándar SD es una medida de dispersión, calculada tomando la raís cuadrada de la varianza.
+
+-   Media absoluta de la desviación MAD: Calculada como la media del valor abosoluto de las diferencias de los valores menos el promedio de los valores.
+
+    ```{r}
+    sd(iris$Sepal.Length)
+    mad(iris$Sepal.Length)
+    ```
+
+La deviación estándar y la desviación media absoluta, son similares pero no son lo mismo. La desviación estándar eleva al cuadrado las distancias, por lo que las distancias más largas se penalizan más que las más cortas, miestras que la deviación media absoluta penaliza cada distancia por igual.
+
+### Quartiles --- Cuartiles
+
+Los cuartiles dividen los datos en cuatros partes iguales.
+
+```{r}
+quantile(iris$Sepal.Length)
+```
+
+### Boxplots use quartiles
+
+Las cajas de diagramas de cajas representan cuartiles
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(y = mpg)) +
+  geom_boxplot()
+```
+
+Quantiles cuartiles o percertiles:
+
+Con la misma función agregandole el argumento de probs que toma un vector de las proporciones, podemos dividir los datos en 5 partes:
+
+```{r}
+quantile(mtcars$cyl, probs = c(0,0.2,0.4,0.6,0.8,1))
+```
+
+Otra menera es, usando la función `seq`:
+
+###### seq(from, to, by)
+
+Donde, from es el numero menor, to el mayor y by es el numero de salto o escala que tendrán.
+
+```{r}
+quantile(mtcars$cyl, probs = seq(0,1,0.2))
+
+```
+
+Rango intercuartilico **IQR**
+
+Es la diferencia entre los percertiles 25 y 75, lo que es la misma altura de la caja en un gráfico de boxplot diagrama de caja.
+
+### Outliers
+
+Valores atípicos, son los valores de una base de datos que son sustancialmente diferentes de los demás. Para considerar un valor atípico, usualmente se utiliza la regla general, que dice que los datos son atípico cuando son menor que el primer cuartil menos **1.5** el IQR, así como cualquier punto mayor que el tercer cuartil más **1.5** el IQR.
+
+Regla para considerar un valor atípico:
+
+-   $data < Q1 - 1.5\ * \ IQR$
+
+-   $data > Q1 + 1.5\ * \ IQR$
+
+#### Encontrar valores atípicos
+
+```{r}
+iqr <- quantile(mtcars$mpg, 0.75) - quantile(mtcars$mpg, 0.25)
+lower_threshold <- quantile(mtcars$mpg, 0.25) - 1.5 * iqr
+upper_threshold <- quantile(mtcars$mpg, 0.75) - 1.5 * iqr
+
+mtcars |> 
+  filter(mpg < lower_threshold | mpg > upper_threshold)
+
+
+```
