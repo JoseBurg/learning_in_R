@@ -13,12 +13,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Functions
 
-Para crear una funcion necesitas: Un nombre, argumentos y el cuerpo.
+Para crear una función necesitas: Un nombre, argumentos y el cuerpo.
 
 ```{r, eval=FALSE}
 name <- function(arguments){
   body
 }
 ```
-
-
