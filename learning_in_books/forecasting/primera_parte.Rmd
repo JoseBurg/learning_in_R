@@ -1,0 +1,106 @@
+---
+title: "forecasting"
+author: "José Burgos"
+date: "2023-12-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r echo=FALSE}
+library(fpp3)
+```
+
+Los pronósticos se pueden aplicar a diversos tipos de series de tiempo, la robustez de nuestros pronostico van a depender de factores como:
+
+1.  Que tanto conocemos de los factores que contribuyen a ellos.
+
+2.  La cantidad de datos disponibles.
+
+3.  Cuán parecido es el futuro al pasado.
+
+4.  Si los pronósticos pueden afectar lo que estamos tratando de pronosticar.
+
+## Pronostico, objetivos y planificación
+
+En la practica se suele confundir los conceptos de pronósticos, objetivos y la planificación, aunque estos estén relacionados, son diferentes entre si.
+
+**Pronostico:** Enfocado en predecir el futuro lo más realista posible, utilizando datos históricos y conocimiento sobre eventos futuros que podrían afectar lo pronosticado.
+
+**Objetivos:** Estos están asociados a lo que nos gustaría obtener en el futuro, aunque estos deberían estar anclados a los pronósticos para así ser mas realistas, pero suelen estar distanciados.
+
+**Planificación:** Es la respuesta a pronósticos y objetivos. La planificación implica determinar las acciones apropiadas para que sus pronósticos coincidan con sus objetivos.
+
+## Determinar que pronosticar
+
+Antes de iniciar un pronostico se deben de conocer con certeza:
+
+-   Frecuencias de los datos.
+
+-   Tiempo con antelación que se requieren los pronósticos.
+
+-   Horizontes de tiempo que se deben pronosticar.
+
+Es importante dedicar tiempo a hablar con las personas que utilizarán los pronósticos para asegurare de comprender sus necesidades y cómo se utilizarán los pronósticos.
+
+## Datos y métodos de pronósticos
+
+Si no hay datos disponibles o estos no son relevantes, se deben utilizar métodos de pronósticos **cualitativos**
+
+**La previsión cuantitativa** se puede aplicar cuando se cumple dos condiciones:
+
+1.  Se dispone de información numérica sobre el pasado.
+
+2.  Es razonable suponer que algunos aspectos de los patrones pasado continuarán en el futuro.
+
+La mayoría de los problemas de predicción *cuantitativa* utilizan datos de **series de tiempo** (recopilados a intervalos regulares a lo largo del tiempo) o **datos transversales** (recopilados en un único momento).
+
+### Pronósticos de series de tiempo
+
+Ejemplos de datos de series de tiempo:
+
+-   Beneficios anuales de Google.
+
+-   Resultados de ventas trimestrales de Amazon.
+
+-   Ventas minoristas semanales.
+
+-   Precios diarias de las acciones de **IBM**.
+
+-   Demanda de electricidad por hora.
+
+*Todo lo que se observa secuencialmente a lo largo del tiempo es una serie de tiempo. Algunos intervalos de tiempos o frecuencia más regulares: hora, día, semana, mes, trimestre, año.*
+
+*Al pronosticar datos de series temporales, el objetivo es estimar cómo continuará la secuencia de observaciones en el futuro.*
+
+Los métodos más simples de pronóstico de series de tiempo utilizan sólo información sobre la variables que se va a pronosticar y no intentan descubrir los factores que afectan su comportamiento.
+
+Los métodos de descomposición son útiles para estudiar la tendencia y los patrones estacionales en una serie temporal.
+
+### Variables predictoras y pronóstico de series temporales.
+
+Las variables predictoras suelen ser útiles en el pronóstico de series temporales. Por ejemplo, supongamos que deseamos pronosticar la demanda de electricidad (ED) por hora de una región cálida durante el período de verano. Un modelo con variables predictoras podría tener la forma:
+
+$$DE = F(temperatura\ actual, fortaleza\ de\ la\ economía, población, hora\ del\ día, día\ de\ la\ semana, error)$$ La relación no es exacta: siempre habrá cambios en la demanda de electricidad que las variables predictoras no pueden explicar. El término de "error" de la derecha permite la variación aleatoria y los efectos de variables relevantes que no están incluidas en el modelo. A esto lo llamamos **modelo explicativo** porque ayuda a explicar qué causa la variación en la demanda de electricidad.
+
+Debido a que los datos de demanda de electricidad forman una serie de tiempo, también podríamos usar un **modelo de serie de tiempo** para realizar pronósticos. En este caso, una ecuación de pronóstico de series de tiempo adecuada es de la forma:
+
+$$DE_{t+1} = F(DE_{t},DE_{t-1},DE_{t-2},DE_{t-3},...,error),$$
+
+dónde *t* es la hora actual, *t+1* es la próxima hora, *t-1* es la hora anterior, *t-2* fue hace dos hora, y así sucesivamente. En este caso, la predicción del futuro se basa en valores pasados de una variable, pero no en variables externas que puedan afectar al sistema. También existe un tercer tipo de modelo que combina las características de los dos modelos anteriores. Por ejemplo:
+
+$$DE_{t+1} = F(DE_t, temperatura\ actual, hora\ del\ día, día\ de\ la\ semana, error)$$
+
+A este tipo de *"modelos mixtos"* se les han dado varios nombres en diferentes disciplinas. Se conocen como modelos de regresión dinámica, modelos de datos de panel, modelos longitudinales, modelos de función de transferencia y modelos de sistemas lineales (suponiendo que **F** es lineal).
+
+Un modelo explicativo es útil porque incorpora información sobre otras variables, en lugar de sólo valores históricos de la variable que se va a pronosticar. Sin embargo, hay varias razones por las que el pronosticador podría seleccionar un modelo de serie temporal en lugar de un modelo explicativo o mixto:
+
+*1. El sistema puede no entenderse, e incluso si se entendiera, puede resultar extremadamente difícil medir las relaciones que se supone gobiernan su comportamiento.*
+
+*2. Es necesario conocer o pronosticar los valores futuros de los diversos predictores para poder pronosticar la variable de interés, y esto puede resultar demasiado difícil.*
+
+*3. La principal preocupación puede ser sólo predecir lo que sucederá, no saber por qué sucede.*
+
+*4. El modelo de series temporales puede ofrecer pronósticos más precisos que un modelo explicativo o mixto.*
