@@ -104,3 +104,7 @@ Un modelo explicativo es útil porque incorpora información sobre otras variabl
 *3. La principal preocupación puede ser sólo predecir lo que sucederá, no saber por qué sucede.*
 
 *4. El modelo de series temporales puede ofrecer pronósticos más precisos que un modelo explicativo o mixto.*
+
+## Los pasos básicos para realizar un pronostico
+
+### 
