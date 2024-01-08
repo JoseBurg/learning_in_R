@@ -1,5 +1,6 @@
 ---
-title: "forecasting"
+title: "Forecasting"
+subtitle: "Primera parte"
 author: "José Burgos"
 date: "2023-12-29"
 output: pdf_document
@@ -9,11 +10,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-```{r echo=FALSE}
-library(fpp3)
-```
-
-Los pronósticos se pueden aplicar a diversos tipos de series de tiempo, la robustez de nuestros pronostico van a depender de factores como:
+Los pronósticos se pueden aplicar a diversos tipos de series de tiempo, la robustez de nuestros pronóstico van a depender de:
 
 1.  Que tanto conocemos de los factores que contribuyen a ellos.
 
@@ -23,11 +20,11 @@ Los pronósticos se pueden aplicar a diversos tipos de series de tiempo, la robu
 
 4.  Si los pronósticos pueden afectar lo que estamos tratando de pronosticar.
 
-## Pronostico, objetivos y planificación
+## pronóstico, objetivos y planificación
 
 En la practica se suele confundir los conceptos de pronósticos, objetivos y la planificación, aunque estos estén relacionados, son diferentes entre si.
 
-**Pronostico:** Enfocado en predecir el futuro lo más realista posible, utilizando datos históricos y conocimiento sobre eventos futuros que podrían afectar lo pronosticado.
+**pronóstico:** Enfocado en predecir el futuro lo más realista posible, utilizando datos históricos y conocimiento sobre eventos futuros que podrían afectar lo pronosticado.
 
 **Objetivos:** Estos están asociados a lo que nos gustaría obtener en el futuro, aunque estos deberían estar anclados a los pronósticos para así ser mas realistas, pero suelen estar distanciados.
 
@@ -35,7 +32,7 @@ En la practica se suele confundir los conceptos de pronósticos, objetivos y la 
 
 ## Determinar que pronosticar
 
-Antes de iniciar un pronostico se deben de conocer con certeza:
+Antes de iniciar un pronóstico se deben de conocer con certeza:
 
 -   Frecuencias de los datos.
 
@@ -105,6 +102,76 @@ Un modelo explicativo es útil porque incorpora información sobre otras variabl
 
 *4. El modelo de series temporales puede ofrecer pronósticos más precisos que un modelo explicativo o mixto.*
 
-## Los pasos básicos para realizar un pronostico
+## Los pasos básicos para realizar un pronóstico
 
-### 
+### 1 Definición del problema.
+
+Definir cuidadosamente el problema requiere comprender la forma en que se utilizarán los pronósticos, quién los requiere y cómo encaja la función de pronóstico dentro de la organización que requiere los pronósticos.
+
+### Recopilación de información.
+
+Siempre se requieren al menos dos tipos de información: (a) datos estadísticos y (b) la experiencia acumulada de las personas que recopilan los datos y utilizan los pronósticos. A menudo será difícil obtener suficientes datos históricos para poder ajustar un buen modelo estadístico. En ese caso, se pueden utilizar los métodos de pronóstico de juicio. En ocasiones, los datos antiguos serán menos útiles debido a cambios estructurales en el sistema que se pronostica; entonces podemos optar por utilizar solo los datos más recientes. Sin embargo, recuerde que los buenos modelos estadísticos manejarán los cambios evolutivos en el sistema; No desperdicies información valiosa innecesariamente.
+
+### Análisis preliminar (exploratorio).
+
+Comience siempre graficando los datos. ¿Existen patrones consistentes? ¿Existe una tendencia significativa? ¿Es importante la estacionalidad? ¿Existe evidencia de la presencia de ciclos económicos? ¿Hay valores atípicos en los datos que deban ser explicados por quienes tienen conocimientos expertos? ¿Qué tan fuertes son las relaciones entre las variables disponibles para el análisis?
+
+### Elección y ajuste de modelos.
+
+El mejor modelo a utilizar depende de la disponibilidad de datos históricos, la solidez de las relaciones entre la variable de pronóstico y cualquier variable explicativa, y la forma en que se utilizarán los pronósticos. Es común comparar dos o tres modelos potenciales. Cada modelo es en sí mismo una construcción artificial que se basa en un conjunto de supuesto (explícitos e implícitos) y normalmente implica uno o más parámetros que deben estimarse utilizando los datos históricos conocidos.
+
+### Usar y evaluar un modelo de pronóstico.
+
+El rendimiento del modelo sólo puede evaluarse adecuadamente después de que los datos para el período de pronóstico estén disponibles. Cuando se utiliza un modelo de pronóstico en la práctica, surgen numerosos problemas prácticos, como cómo manejar los valores faltantes y los valores atípicos, o cómo lidiar con series temporales cortas.
+
+## La perspectiva de la previsión estadística
+
+Lo que intentamos pronosticar es desconocido (de lo contrario no lo estaríamos pronosticando), por lo que podemos considerarlo como una variables aleatoria.
+
+En la mayoría de las situaciones de pronóstico, la variación asociada con lo que estamos pronosticando se reducirá a medida que se acerque el evento. En otras palabras, cuanto más adelante pronosticamos, más inciertos somos.
+
+Cuando obtenemos un pronóstico, estamos estimando la mitad del rango de valores posibles que podría tomar la variable aleatoria. A menudo, un pronóstico va acompañado de un **intervalo de predicción** que proporciona un *rango* de valores que la variable aleatoria podría tomar con una probabilidad relativamente alta. Por ejemplo, un intervalo de predicción del 95% contiene un rango de valores que debe incluir el valor futuro real con una probabilidad del 95%.
+
+Su utiliza el sub-índice $t$ para el tiempo. Por ejemplo, $y_t$ denotará la observación en el momento $t$. Supongamos que denotamos toda la información que hemos observado como $\Gamma$ y queremos pronosticar $y_t$ dado lo que sabemos en $\Gamma$. El conjunto de valores que podría tomar esta variable aleatoria. junto con sus probabilidades relativas se conoce como "distribución de probabilidad" de $y_t|\Gamma$. En pronóstico, a esto lo llamamos como **distribución de pronóstico**.
+
+Cuando hablamos de `pronóstico`, generalmente nos referimos al valor promedio de la distribución del pronóstico, y le ponemos un `sombrero` a $y$ para mostrar esto. Así, escribimos el pronóstico de $y_t$ como $\hat{y}_t$, es decir, el promedio de los valores posibles que $y_t$ podría tomar dado todo lo que sabemos.
+
+A menudo resulta útil especificar exactamente qué información hemos utilizado para calcular el pronóstico. Luego escribiremos, por ejemplo, $\hat{y}_{t|t-1}$ significa el pronóstico de $y_t$ teniendo en cuenta todas las observaciones anteriores ($y_1, ..., y_{t-1}$). Similarmente, $\hat{y}_{t+h|t}$ significa el pronóstico de $y_{t+h}$ teniendo en cuenta $y_1, ..., y_t$ (es decir, un $h$-Previsión de pasos teniendo en cuenta todas las observaciones hasta el momento $t$).
+
+## Ejercicios
+
+1.  Para los casos 3 y 4 de la sección 1.5, enumere las posibles variables predictoras que podrían ser útiles, suponiendo que los datos relevantes estén disponibles.
+
+    #### [Caso 3]{.underline}
+
+    *Una gran empresa de flotas de automóviles nos pidió que le ayudáramos a pronosticar los valores de reventa de los vehículos. Comparan vehículos nuevos, los alquilan por tres años y luego los venden. Mejores pronósticos de valores de venta de vehículos significarían un mejor control de las ganancias; Comprender qué afecta los valores de reventa puede permitir que se desarrollen políticas de arrendamiento y ventas para maximizar las ganancias.*
+
+    *En aquel momento, un grupo de especialistas pronosticaba los valores de reventa. Desafortunadamente, vieron cualquier modelo estadístico como una amenaza para sus trabajos y no cooperaron a la hora de proporcionar información. Sin embargo, la empresa proporcionó una gran cantidad de datos sobre vehículos anteriores y sus eventuales valores de reventa.*
+
+    [**Caso 4**]{.underline}
+
+    *En este proyecto, necesitábamos desarrollar un modelo para pronosticar el tráfico aéreo semanal de pasajeros en las principales rutas nacionales de una de las principales aerolíneas de Australia. La empresa requería previsiones del número de pasajeros para cada ruta nacional importante y para cada clase de pasajero (clase económica, clase ejecutiva y primera clase). La empresa proporcionó datos de tráfico semanales de los seis años anteriores.*
+
+    *El número de pasajeros aéreos se ve afectado por las vacaciones escolares, los principales eventos deportivos, las campañas publicitarias, el comportamiento competitivo, etc. Las vacaciones escolares a menudo no coinciden en diferentes ciudades australianas y los eventos deportivos a veces se trasladan de una ciudad a otra. Durante el periodo de los datos históricos se produjo una importante huelga de pilotos durante la cual no hubo tráfico durante varios meses. También se lanzó y cerró una nueva aerolínea de precio reducido. Hacia el final de los datos históricos, la aerolínea había probado una redistribución de algunos asientos de clase económica a clase ejecutiva y algunos asientos de clase ejecutiva a primera clase. Sin embargo, después de varios meses, las clasificaciones de asientos volvieron a la distribución original.*
+
+    ### Respuestas:
+
+    #### **Caso 3**
+
+    #### Variables predictoras para obtener los valores de reventa de los vehículos rentados:
+
+    -   Kilometraje del vehículo.
+
+    -   Año de fabricación del vehículo.
+
+    -   Precio promedio del vehículo en el mercado.
+
+    -   Precio de adquisición del vehículo.
+
+    -   Tipo de combustible del vehículo (gasoil, gasolina, gas, eléctrico).
+
+        $$
+        valor\_reventa = \beta_0 + \beta_1\ km\ + \beta_2\ year\_fabr\ + \beta_3\ mean\_veh\ + \beta_4\ price\_vehiculo\ + \beta_5\  combustible\ + \epsilon
+        $$
+
+2.  Para el caso 3 en la sección 1.5, describa los cinco pasos del pronóstico en el contexto de este proyecto.

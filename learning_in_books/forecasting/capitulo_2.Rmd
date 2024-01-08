@@ -1,0 +1,70 @@
+---
+title: "Forecasting"
+subtitle: "Capítulo 2"
+author: "José Burgos"
+date: "2024-01-08"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tsibble)
+library(dplyr)
+```
+
+## Gráficos de series de tiempo
+
+Lo primero que debe hacer en cualquier tarea de análisis de datos es trazar los datos. Los gráficos permiten visualizar muchas características de los datos, incluidos patrones, observaciones inusuales, cambios a lo largo del tiempo y relaciones entre variables. Las características que se ven en los gráficos de los datos deben incorporarse, en la medida de lo posible, a los métodos de pronóstico que se utilizarán, también determina qué método de pronóstico utilizar, también determina qué gráficos son apropiados.
+
+### Objetos \`tsibble\`
+
+Se puede considerar una serie de tiempo como una lista de números (las medidas), junto con cierta información sobre las horas en que se registraron esos números (el índice). Esta información se puede almacenar como un `tsibble` objeto en R.
+
+#### La variable índice
+
+Suponga que tiene observaciones anuales de los últimos años:
+
+| Año  | Observación |
+|------|-------------|
+| 2015 | 123         |
+| 2016 | 39          |
+| 2017 | 78          |
+| 2018 | 52          |
+| 2019 | 110         |
+
+Convertimos esto en un `tsibble` objeto usando la `tsibble()` función:
+
+```{r}
+y <- tsibble(
+  Year = 2015:2019,
+  Observation = c(123, 39, 78, 52, 110),
+  index = Year
+)
+```
+
+Los objetos amplían los marcos de datos ordenados (`tibble` objetos) introduciendo una estructura temporal. Hemos configurado la serie temporal `index` como la `Year` columna que asocia las mediciones (`Observation`) con el tiempo de registro (`Year`).
+
+Para observaciones que son más frecuentes que una vez al año, necesitamos usar una función de clase de tiempo en el índice. Por ejemplo, supongamos que tenemos un conjunto de datos mensual `eoe_mensual`:
+
+```{r}
+
+eoe_mensual <- bcdata::get_em_eoe() |> 
+  select(periodo, contains("situacion_economica")) |> 
+  mutate(Month = yearmonth(periodo)) |> 
+  as_tsibble(index = Month)
+
+head(eoe_mensual)
+```
+
+La adición de '[1M]' en la primera línea, lo que indica que se trata de datos mensuales.
+
+Se pueden utilizar otras funciones de clase de tiempo dependiendo de la frecuencia de las observaciones.
+
+| Frecuencia   | Función                       |
+|--------------|-------------------------------|
+| Anual        | `start:end`                   |
+| Trimestral   | `yearquarter()`               |
+| Mensual      | `yearmonth()`                 |
+| Semanalmente | `yearweek()`                  |
+| A diario     | `as_date()`, `ymd()`          |
+| Subdiario    | `as_datetime()` , `ymd_hms()` |
