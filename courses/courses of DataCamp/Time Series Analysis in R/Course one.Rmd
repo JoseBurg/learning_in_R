@@ -1,0 +1,61 @@
+---
+title: "Análisis de series de tiempo"
+author: "José Burgos"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Explorando series temporales sin procesar
+
+El primer paso más común al realizar un análisis de series temporales es mostrar el conjunto de datos de series temporales en un formato intuitivo. La formas más útil de ver datos de series temporales son procesar en R es usar el comando `print()` , este muestra los datos y la frecuencia de sus datos junto con las observaciones.
+
+Otro comando útil para ver datos de series de tiempo en R es la función `length()`, que le indica el número total de observaciones en sus datos.
+
+Algunos conjuntos de datos son muy largos y obtener una vista previa de un subconjunto de datos es más adecuado que mostrar la serie completa. Las funciones `head(___, n =___)` y `tail(___, n = ___)` , en las que se indica el número de elementos a mostrar, se centran en los primeros y último elementos de un conjunto de datos determinado, respectivamente.
+
+En los siguientes comandos, explorará los famosos datos de caudal anual del río Nilo `Nile`. Este conjunto de datos de series temporales incluye cierta información de metadatos. Al llamar la función `print(Nile)` podrá visualizar el conjunto de datos, tenga en cuenta que `Start = 1871` indica que 1871 es el año de la primera observación anual y `End = 1970` es el año de la última observación.
+
+-   Estructura:
+
+    ```{r}
+    print(Nile)
+    ```
+
+<!-- -->
+
+-   Cantidad de observaciones:
+
+    ```{r}
+    length(Nile)
+    ```
+
+-   Primeras 5 observaciones:
+
+    ```{r}
+    head(Nile, n = 5)
+    ```
+
+-   Últimas 5 observaciones:
+
+    ```{r}
+    tail(Nile, n = 5)
+    ```
+
+## Gráficos básicos de series de tiempo.
+
+Otra forma muy útil para explorar cualquier dato es genera un gráfico.
+
+La función `plot()` ayuda a graficar de manera sencilla datos de series de tiempo, como los de `Nile`.
+
+```{r}
+plot(Nile)
+```
+
+Puede personalizar su gráfico, modificando los parametros que trae la función `plot()`, colocando más información en su gráfico.
+
+```{r}
+plot(Nile, main = "Volumen anual del río Nilo en Asuán, 1871-1970",ylab = "Volumen del rio (1e9 m^{3})", xlab = "Year", type = "b")
+```
